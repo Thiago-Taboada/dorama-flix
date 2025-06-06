@@ -28,8 +28,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 });
 
-
-
 const firebaseConfig = {
     apiKey: "",
     authDomain: "",

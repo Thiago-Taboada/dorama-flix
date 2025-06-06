@@ -1,20 +1,18 @@
-
-// THE MOVIE DATABASE API:
-//const API_KEY = process.env.SECRET_API_KEY;
-//const SIMPLE_API_KEY = process.env.SECRET_SIMPLE_API_KEY;
-const API_KEY = 'api_key=a5e392e03ce076f6916518aa1a3302c3&language=pt-BR';
-const SIMPLE_API_KEY = 'api_key=a5e392e03ce076f6916518aa1a3302c3';
+const API_KEY = 'api_key=a5e392e03ce076f6916518aa1a3302c3';
 const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_URL = 'https://image.tmdb.org/t/p/original';
 const IMG500_URL = 'https://image.tmdb.org/t/p/w500';
-const searchURL = BASE_URL + '/search/multi?include_adult=false&' + API_KEY;
+const FILTER = '&language=pt-BR&certification_country=BR&certification.lte=16&with_origin_country=KR|JP|CN|TW&include_null_first_air_dates=false&sort_by=popularity.desc&';
 
-const HOME_URL = BASE_URL + '/discover/movie?sort_by=revenue.desc&vote_average.gte=6&' + API_KEY;
-const FILMES_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
-const SERIES_URL = BASE_URL + '/discover/tv?sort_by=popularity.desc&vote_average.gte=6&' + API_KEY;
+const searchURL = BASE_URL + '/search/multi?' + FILTER + API_KEY;
 
+const HOME_URL = BASE_URL + '/discover/movie?&vote_average.gte=6' + FILTER + API_KEY;
+
+const FILMES_URL = BASE_URL + '/discover/movie?' + FILTER + API_KEY;
+
+const SERIES_URL = BASE_URL + '/discover/tv?' + FILTER + API_KEY;
+  
 let API_URL = HOME_URL;
-
 
 const navLinks = document.querySelectorAll('.nav-menu .nav');
 let activeLinkId = localStorage.getItem('activeLinkId');
@@ -66,7 +64,7 @@ const genres = [
   },
   {
     "id": 16,
-    "name": "Animação"
+    "name": "Anime"
   },
   {
     "id": 12,
@@ -248,7 +246,7 @@ getMovies(API_URL);
 function getMovies(url) {
   lastUrl = url;
   fetch(url).then(res => res.json()).then(data => {
-    //console.log(data.results)
+    // console.log(data.results)
     if (data.results.length !== 0) {
       showMovies(data.results);
       currentPage = data.page;
@@ -283,21 +281,27 @@ function showMovies(data) {
   main.innerHTML = '';
 
   data.forEach(movie => {
-    const { title, poster_path, vote_average, overview, id } = movie;
+    const { title, name, poster_path, vote_average, overview, id } = movie;
+    if (!poster_path) return;
+
+    const displayTitle = title || name || 'Sem título';
+    const isMovie = !!title;
     const maxLength = 200;
-    const limitedOverview = overview.length > maxLength ? overview.substring(0, maxLength) + "..." : overview;
+    const overviewText = overview || '';
+    const limitedOverview = overviewText.length > maxLength ? overviewText.substring(0, maxLength) + "..." : overviewText;
+    const displayRating = vote_average === 0 ? '?' : vote_average;
 
     const movieEl = document.createElement('div');
     movieEl.classList.add('movie');
     movieEl.innerHTML = `
-          <img src="${poster_path ? IMG500_URL + poster_path : "http://via.placeholder.com/1080x1580"}" alt="${title}">
+          <img src="${IMG500_URL + poster_path}" alt="${displayTitle}">
 
           <div class="movie-info">
-              <h3>${title}</h3>
+              <h3>${displayTitle}</h3>
               <br/>
               <div class="rating">
                 <i class="bx bxs-star"></i>
-                <span>${vote_average}</span>
+                <span>${displayRating}</span>
               </div>
           </div>
 
@@ -310,14 +314,13 @@ function showMovies(data) {
                 <button class="save" id="save-${id}">Salvar</button>
               </div>
           </div>
-
       `;
 
     main.appendChild(movieEl);
 
     document.getElementById(`more-${id}`).addEventListener('click', (e) => {
       e.stopPropagation();
-      showDetails(id);
+      showDetails(id, isMovie);
     });
 
     document.getElementById(`save-${id}`).addEventListener('click', (e) => {
@@ -328,14 +331,13 @@ function showMovies(data) {
     document.getElementById(`resumo-${id}`).addEventListener('click', () => {
       console.log("resumo clicked " + id);
     });
-
-
   });
 }
 
-function showDetails(id) {
-  let DETAILS_URL = `${BASE_URL}/movie/${id}?${API_KEY}`;
-  let BANNER_URL = `${BASE_URL}/movie/${id}/images?${SIMPLE_API_KEY}`;
+function showDetails(id, isMovie) {
+  const type = isMovie ? 'movie' : 'tv';
+  const DETAILS_URL = `${BASE_URL}/${type}/${id}?${API_KEY}`;
+  const BANNER_URL = `${BASE_URL}/${type}/${id}/images?${API_KEY}`;
 
   fetch(DETAILS_URL)
     .then(res => res.json())
@@ -346,26 +348,44 @@ function showDetails(id) {
           const detailsContainer = document.createElement('div');
           detailsContainer.classList.add('details-container');
           detailsContainer.id = "details-container";
-          const backdrop1920 = bannerData.backdrops.find(backdrop => backdrop.width === 1920);
-          const backdropPath = backdrop1920 ? backdrop1920.file_path : '';
+
+          let preferredBackdrops = bannerData.backdrops;
+          preferredBackdrops = bannerData.backdrops.filter(b => b.iso_639_1 === "pt");
+          if (preferredBackdrops.length === 0) {
+            preferredBackdrops = bannerData.backdrops.filter(b => b.iso_639_1 === "en");
+          }
+          if (preferredBackdrops.length === 0) {
+            preferredBackdrops = bannerData.backdrops;
+          }
+
+          let backdrop = preferredBackdrops.find(b => b.width === 1920);
+          if (!backdrop && preferredBackdrops.length > 0) {
+            backdrop = preferredBackdrops.reduce((max, current) =>
+              current.width > max.width ? current : max
+            );
+          }
+
+          const backdropPath = backdrop ? backdrop.file_path : '';
+          const displayTitle = data.title || data.name || 'Sem título';
 
           detailsContainer.innerHTML = `
-                    <div class="details" id="details">
-                      <i class="bx bx-x bx-tada" id="close-btn"></i>
-                      <img src="${backdropPath ? IMG_URL + backdropPath : "http://via.placeholder.com/1080x1580"}" alt="${data.title}">
-                      <div class="resumo" id="resumo">
-                        <div class="details-info">
-                          <h3>${data.title}</h3>
-                            
-                          <span><i class="bx bxs-star"></i> ${data.vote_average}</span>
-                        </div>
-                          <h3>Resumo</h3>
-                          <p>${data.overview}</p>
-                        </div>
-                    </div>
-                `;
+            <div class="details" id="details">
+              <i class="bx bx-x bx-tada" id="close-btn"></i>
+              <img src="${backdropPath ? IMG_URL + backdropPath : "http://via.placeholder.com/1080x1580"}" alt="${displayTitle}">
+              <div class="resumo" id="resumo">
+                <div class="details-info">
+                  <h3>${displayTitle}</h3>
+                  <span><i class="bx bxs-star"></i> ${data.vote_average}</span>
+                </div>
+                <h3>Resumo</h3>
+                <p>${data.overview}</p>
+              </div>
+            </div>
+          `;
+
           document.body.appendChild(detailsContainer);
           document.body.classList.add('no-scroll');
+
           document.getElementById('close-btn').addEventListener('click', (e) => {
             e.stopPropagation();
             document.body.classList.remove('no-scroll');
@@ -377,6 +397,7 @@ function showDetails(id) {
     })
     .catch(error => console.error('Error fetching movie details:', error));
 }
+
 
 formSearch.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -391,8 +412,6 @@ formSearch.addEventListener('submit', (e) => {
   }
 
 })
-
-
 
 prev.addEventListener('click', () => {
   if (prevPage > 0) {
