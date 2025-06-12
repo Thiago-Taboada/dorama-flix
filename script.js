@@ -11,10 +11,10 @@ const HOME_URL = BASE_URL + '/discover/movie?&vote_average.gte=6' + FILTER + API
 const FILMES_URL = BASE_URL + '/discover/movie?' + FILTER + API_KEY;
 
 const SERIES_URL = BASE_URL + '/discover/tv?' + FILTER + API_KEY;
-  
+
 let API_URL = HOME_URL;
 
-const navLinks = document.querySelectorAll('.nav-menu .nav');
+const navLinks = document.querySelectorAll('.nav-menu .nav, .sidebar .nav');
 let activeLinkId = localStorage.getItem('activeLinkId');
 
 function setActiveLink(link) {
@@ -35,11 +35,14 @@ navLinks.forEach(link => {
     e.preventDefault();
     const id = e.target.id;
 
-    if (id === 'nav-home') {
+    if (id === 'nav-home' || id === 'side-nav-home') {
+      console.log("nav hom");
       API_URL = HOME_URL;
-    } else if (id === 'nav-filmes') {
+    } else if (id === 'nav-filmes' || id === 'side-nav-filmes') {
+      console.log("nav fil");
       API_URL = FILMES_URL;
-    } else if (id === 'nav-series') {
+    } else if (id === 'nav-series' || id === 'side-nav-series') {
+      console.log("nav ser");
       API_URL = SERIES_URL;
     }
     selectedGenre = [];
@@ -47,6 +50,24 @@ navLinks.forEach(link => {
     getMovies(API_URL);
 
     setActiveLink(e.target);
+  });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const hamburger = document.getElementById('hamburger-menu');
+  const sidebar = document.getElementById('sidebar-menu');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    sidebar.classList.toggle('active');
+  });
+
+  // Opcional: cerrar al hacer clic en cualquier enlace del sidebar
+  sidebar.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('active');
+      sidebar.classList.remove('active');
+    });
   });
 });
 
@@ -157,6 +178,11 @@ tagsEl.style.display = 'none';
 generosLink.addEventListener('click', () => {
   if (tagsEl.style.display === 'none') {
     tagsEl.style.display = 'flex';
+    document.body.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+
     setGenre();
   } else {
     tagsEl.style.display = 'none';
@@ -426,6 +452,7 @@ next.addEventListener('click', () => {
 })
 
 function pageCall(page) {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
   let urlSplit = lastUrl.split('?');
   let queryParams = urlSplit[1].split('&');
   let key = queryParams[queryParams.length - 1].split('=');

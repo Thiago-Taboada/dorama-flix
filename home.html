@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap"
         rel="stylesheet" />
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="grid.css" />
     <link rel="icon" href="images/favico.svg" type="image/x-icon">
     <title>Dorama Flix</title>
@@ -19,7 +20,7 @@
         <div class="container">
             <div class="nav">
                 <a href="home.html" class="logo">
-                    <i class="bx bx-movie-play bx-tada main-color"></i>Dorama Fl<span class="main-color">i</span>x
+                    <i class="bx bx-bowl-noodles-alt bx-tada main-color"/></i>Dorama Fl<span class="main-color">i</span>x
                 </a>
                 <ul class="nav-menu" id="nav-menu">
                     <li><a class="nav" id="nav-home" href="#">Inicio</a></li>
@@ -42,15 +43,34 @@
                     <div class="hamburger"></div>
                 </div>
             </div>
+            <nav class="sidebar" id="sidebar-menu">
+                <ul>
+                    <li><a class="nav" id="side-nav-home" href="#">Inicio</a></li>
+                    <li><a class="nav" id="side-generos" href="#">Generos</a></li>
+                    <li><a class="nav" id="side-nav-filmes" href="#">Filmes</a></li>
+                    <li><a class="nav" id="side-nav-series" href="#">Series</a></li>
+                    <li>
+                        <form id="form-search">
+                            <input type="text" placeholder="Buscar" id="side-search" class="search" />
+                        </form>
+                    </li>
+                    <li>
+                        <a href="#" id="exit-btn" class="btn btn-hover" onclick="logout()">
+                            <span>Sair</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
         </div>
     </div>
 
     <div id="tags"></div>
     <main id="main"></main>
     <div class="pagination">
-        <div class="page" id="prev">Previous Page</div>
+        <div class="page" id="prev"><< Previous Page</div>
         <div class="current" id="current">1</div>
-        <div class="page" id="next">Next Page</div>
+        <div class="page" id="next">Next Page >></div>
     </div>
 
     <footer class="section">
@@ -59,11 +79,11 @@
                 <div class="col-4 col-md-6 col-sm-12">
                     <div class="content">
                         <a href="#" class="logo">
-                            <i class="bx bx-movie-play bx-tada main-color"></i>Dorama Fl<span
+                            <i class="bx bx-bowl-noodles-alt bx-tada main-color"/></i>Dorama Fl<span
                                 class="main-color">i</span>x
                         </a>
                         <p>
-                            Descubra uma variedade de gêneros, desde dramas intensos até aventuras cheias de ação. Em nossa plataforma, cada filme é uma experiência única. Seja parte da jornada, Encontre seu próximo filme favorito aqui.
+                            Descubra uma variedade de gêneros, desde dramas intensos até aventuras cheias de ação. Em nossa plataforma, cada filme e serie é uma experiência única. Seja parte da jornada, encontre seu próximo favorito aqui.
                         </p>
                         <div class="social-list">
                             <a href="#" class="social-item">
@@ -131,12 +151,6 @@
             </div>
         </div>
     </footer>
-    <!-- SO FUNCIONA COM NODE.JS, USAR A VERSAO 8.6.8 para js tradicional
-    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-database.js"></script> 
-    -->
-
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>

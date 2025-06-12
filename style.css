@@ -1,8 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;700&display=swap");
 
 :root {
-    --main-color: #9146ff;
-    --body-bg: #0a0908;
+    --main-color-old: #C9184A;
+    --main-color: #ff4d6d;
+    --body-bg-img: url(images/textura-gatos.png);
+    --body-bg-color: #0a0908;
     --box-bg: #221f1f;
     --text-color: #f2f4f3;
 
@@ -24,7 +26,7 @@ html {
 
 body {
     font-family: "Cairo", sans-serif;
-    background-color: var(--body-bg);
+    background: var(--body-bg-color);
     color: var(--text-color);
     padding-top: var(--nav-height);
     display: block;
@@ -114,6 +116,10 @@ a.movie-item:hover {
     text-decoration: underline;
 }
 
+.sidebar ul{
+    list-style: none;
+}
+
 .btn {
     color: #ffffff;
     padding: 0.25rem 1.5rem;
@@ -134,30 +140,26 @@ a.movie-item:hover {
 .btn i {
     margin-right: 1rem;
 }
-
+/* HAMBURGER */
 .hamburger-menu {
     --size: 30px;
     height: var(--size);
     width: var(--size);
     cursor: pointer;
-    z-index: 101;
+    z-index: 102;
     position: relative;
     display: none;
     align-items: center;
+    justify-content: center;
 }
 
 .hamburger {
     position: relative;
-}
-
-.hamburger,
-.hamburger::before,
-.hamburger::after {
     width: var(--size);
     height: 3px;
-    border-radius: 0.5rem;
     background-color: var(--text-color);
-    transition: 0.4s;
+    border-radius: 0.5rem;
+    transition: background-color 0.4s ease;
 }
 
 .hamburger::before,
@@ -165,6 +167,11 @@ a.movie-item:hover {
     content: "";
     position: absolute;
     left: 0;
+    width: var(--size);
+    height: 3px;
+    background-color: var(--text-color);
+    border-radius: 0.5rem;
+    transition: 0.4s ease;
 }
 
 .hamburger::before {
@@ -172,7 +179,7 @@ a.movie-item:hover {
 }
 
 .hamburger::after {
-    bottom: -10px;
+    top: 10px;
 }
 
 .hamburger-menu.active .hamburger {
@@ -180,15 +187,34 @@ a.movie-item:hover {
 }
 
 .hamburger-menu.active .hamburger::before {
-    transform-origin: top left;
     transform: rotate(45deg);
-    left: 6px;
+    top: 0;
 }
 
 .hamburger-menu.active .hamburger::after {
-    transform-origin: bottom left;
     transform: rotate(-45deg);
-    left: 6px;
+    top: 0;
+}
+
+/* SIDEBAR - menú lateral derecho */
+.sidebar {
+    position: fixed;
+    top: 0;
+    width: 250px;
+    height: 100vh;
+    background-color: var(--box-bg);
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: right 0.3s ease;
+    z-index: 101;
+    padding: 20px;
+    display: none;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sidebar.active {
+    right: 0;
+    display: flex;
 }
 
 /* -------------------------------------- */
@@ -207,17 +233,36 @@ a.movie-item:hover {
 }
 
 .search::placeholder {
-    color: #7378c5;
+    color: #ffb3c1;
     font-weight: 700;
     text-transform: uppercase;
 }
 
 main {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 15px;
     padding: 0 50px;
+    z-index: 0;
+    background-color: transparent;
+}
+
+main::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: var(--body-bg-img);
+    background-repeat: repeat;
+    background-size: 50%;
+    filter: opacity(0.3);
+    z-index: -1;
+    pointer-events: none;
+    -webkit-filter: opacity(0.3);
 }
 
 .movie {
@@ -343,7 +388,6 @@ main {
     font-size: 2rem;
 }
 
-/* ˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆ */
 
 #tags {
     width: 80%;
@@ -351,7 +395,7 @@ main {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    margin: 10px auto;
+    margin: 0 auto;
 }
 
 .tag {
@@ -365,7 +409,7 @@ main {
 }
 
 .tag.highlight {
-    background: #361a61;
+    background: #C9184A;
 }
 
 .no-results {
@@ -381,8 +425,14 @@ main {
 }
 
 .page {
-    padding: 20px;
+    padding: 10px;
     cursor: pointer;
+    background: #ff758f;
+}
+
+.page:hover{
+    font-weight: bold;
+    text-decoration: underline;
 }
 
 .page.disabled {
@@ -417,7 +467,6 @@ main {
 /* Footer ------------------------------ */
 
 footer.section {
-    margin-top: 80px;
     padding-bottom: 80px;
     position: relative;
     background-color: var(--box-bg);
@@ -561,11 +610,30 @@ footer .content {
 }
 
 .pre_form_container {
+    position: relative;
     width: 100%;
     min-height: calc(100vh - var(--nav-height));
     height: fit-content;
     display: flex;
     justify-content: center;
+    z-index: 0;
+    background: transparent; 
+}
+
+.pre_form_container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: var(--body-bg-img);
+    background-repeat: repeat;
+    background-size: 50%;
+    filter: opacity(0.3);
+    z-index: -1;
+    pointer-events: none;
+    -webkit-filter: opacity(0.3);
 }
 
 .form_container {
@@ -641,196 +709,4 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .recover {
     display: none;
-}
-
-/* USER VIDEOS */
-
-.fav-header {
-    margin-top: 50px;
-    padding: 0 50px;
-    margin-bottom: 30px;
-}
-
-.section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.section-header h3 {
-    padding-left: 20px;
-    text-transform: uppercase;
-    font-size: 1.5rem;
-    font-weight: 700;
-    border-left: 4px solid var(--main-color);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.section-header p {
-    text-transform: uppercase;
-    font-size: 1.2rem;
-    font-weight: 700;
-    padding: 10px 20px;
-    cursor: pointer;
-}
-
-.upload-container {
-    width: 30%;
-    height: min-content;
-    background-color: var(--box-bg);
-    margin: auto;
-    margin-top: 50px;
-    margin-bottom: 50px;
-    display: flex;
-    justify-content: center;
-    display: none;
-}
-
-.upload-fields {
-    width: 75%;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    padding-top: 30px;
-    padding-bottom: 20px;
-}
-
-.upload-fields h3 {
-    font-size: 22px;
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--text-color);
-    text-align: center;
-}
-
-.upload-input {
-    width: 100%;
-    height: 40px;
-    padding: 10px;
-    margin-bottom: 20px;
-    margin-top: 5px;
-    background: #000;
-    color: var(--text-color);
-    font-size: 16px;
-    border-bottom: 2px solid var(--main-color);
-}
-
-.upload-label {
-    font-size: 1.2rem;
-    cursor: pointer;
-}
-
-#uploadButton {
-    margin-left: 10px;
-    padding: 10px;
-    background: var(--main-color);
-    color: var(--text-color);
-    font-size: 1.2rem;
-    cursor: pointer;
-}
-
-#uploadButton:disabled {
-    cursor: not-allowed;
-}
-
-#loading {
-    font-size: 22px;
-    font-weight: 400;
-    text-align: center;
-    display: none;
-}
-
-.video {
-    width: 280px;
-    height: 523px;
-    box-shadow: 0.2px 4px 5px rgba(0, 0, 0, 0.1);
-    position: relative;
-    overflow: hidden;
-}
-
-.video video {
-    height: 420px;
-}
-
-.video-info {
-    color: #eee;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    padding: 0.5rem 1rem 1rem;
-}
-
-.video-info .rating {
-    margin-bottom: 0;
-    font-size: 0.8rem;
-    font-weight: 600;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.video-info h3 {
-    margin-top: 0;
-}
-
-.video-info span {
-    background: var(--body-bg);
-    padding: 0.5rem;
-}
-
-.video-info i {
-    color: var(--main-color);
-}
-
-.video:hover .resumo {
-    transform: translateY(0);
-}
-
-.delete {
-    background: var(--main-color);
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    border: 0;
-    padding: 4px 6px;
-    margin-top: 5px;
-    cursor: pointer;
-}
-
-.video-details {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 70%;
-    height: auto;
-    max-height: 80%;
-    color: var(--text-color);
-}
-
-.video-player {
-    width: 100%;
-    display: block;
-    margin: 0 auto;
-}
-
-.video-details .resumo {
-    width: 100%;
-    padding: 1rem;
-}
-
-.video-details .details-info {
-    font-size: 0.8rem;
-    font-weight: 600;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.video-details .details-info h3 {
-    font-size: 2rem;
 }

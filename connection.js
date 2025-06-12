@@ -28,15 +28,26 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 });
 
+// const firebaseConfig = {
+//     apiKey: "",
+//     authDomain: "",
+//     projectId: "",
+//     storageBucket: "",
+//     databaseURL: "",
+//     messagingSenderId: "",
+//     appId: "",
+//     measurementId: "",
+// };
+
 const firebaseConfig = {
-    apiKey: "",
-    authDomain: "",
-    projectId: "",
-    storageBucket: "",
-    databaseURL: "",
-    messagingSenderId: "",
-    appId: "",
-    measurementId: "",
+    apiKey: "AIzaSyDrLvy384Zgqli1ru50VuoZhL2qu69GC6g",
+    authDomain: "cineflix-4b1aa.firebaseapp.com",
+    projectId: "cineflix-4b1aa",
+    storageBucket: "cineflix-4b1aa.appspot.com",
+    databaseURL: "https://cineflix-4b1aa-default-rtdb.firebaseio.com/",
+    messagingSenderId: "542686761142",
+    appId: "1:542686761142:web:5cd7a5976705ae594a1617",
+    measurementId: "G-FM4XWCE8VE",
 };
 
 firebase.initializeApp(firebaseConfig);
