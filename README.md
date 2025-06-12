@@ -1,10 +1,6 @@
-Claro! Aqui está um exemplo de um **README completo e estruturado** para o seu projeto **Dorama Flix**, com base nas informações que você forneceu. Você pode copiar, adaptar e colar no seu repositório do GitHub ou qualquer outra plataforma de versionamento.
-
----
-
 # 🎬 Dorama Flix
 
-Dorama Flix é uma plataforma web interativa para fãs de doramas, filmes e séries orientais. Com uma interface moderna e intuitiva, o site permite que os usuários explorem, pesquisem e assistam a conteúdos asiáticos — diretamente de uma base de dados dinâmica conectada à TMDB API. O sistema também oferece um gerenciamento de usuários com login e autenticação via Firebase.
+Dorama Flix é uma plataforma web interativa para fãs de doramas, animes, filmes e séries orientais. Com uma interface moderna e intuitiva, o site permite que os usuários explorem, pesquisem e assistam a conteúdos asiáticos — diretamente de uma base de dados dinâmica conectada à TMDB API. O sistema também oferece um gerenciamento de usuários com login e autenticação via Firebase.
 
 ---
 
@@ -13,8 +9,8 @@ Dorama Flix é uma plataforma web interativa para fãs de doramas, filmes e sér
 O objetivo do Dorama Flix é oferecer uma experiência simples e agradável para amantes de produções orientais. Os usuários podem:
 
 * Criar uma conta e fazer login de forma segura.
-* Navegar por uma vasta lista de doramas, filmes e séries.
-* Visualizar detalhes como sinopse, elenco, avaliação e trailer.
+* Navegar por uma vasta lista de doramas, animes, filmes e séries.
+* Visualizar detalhes como sinopse, avaliação e trailer.
 * Pesquisar por títulos específicos.
 * Favoritar conteúdos para assistir depois (função opcional se implementada).
 
@@ -35,7 +31,7 @@ O projeto foi desenvolvido com as seguintes tecnologias:
 ## 🚀 Visual do Projeto
 
 ### 💻 Site em Funcionamento
-[Dorama FLix](https://thiago-taboada.github.io/dorama-flix/) - *Deploy do projeto no Github Pages*
+[Dorama Flix](https://thiago-taboada.github.io/dorama-flix/) - *Deploy do projeto no Github Pages*
 
 ### 🎨 Protótipo no Figma
 
