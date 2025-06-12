@@ -72,7 +72,6 @@ O projeto foi desenvolvido com as seguintes tecnologias:
 
 ![Mais informação e videoplayer](./assets/MaisInfo.png)
 *Mais informação e videoplayer*
----
 
 ## 👨‍💻 Autores
 
